@@ -131,7 +131,7 @@ public class LoginFormEvt extends WindowAdapter implements ActionListener {
 		
 		if(mapLoginData.containsKey(id) && mapLoginData.get(id).equals(pass)) {
 			msg=("로그인 성공");
-			new ViewLayout();
+			new ViewForm();
 		} //end if
 		JOptionPane.showMessageDialog(null, msg, "로그인", JOptionPane.WARNING_MESSAGE);
 
