@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,7 +27,8 @@ public class ResultForm extends JFrame{
     
 	private JTextArea resultText;
 	
-	private String fileRute="c:/Temp/sist_input_1.log";
+	private String fileRute1="C:/Temp/sist_input_1.log";
+	
 	
     private Map<String, Integer> mapKey = new HashMap<>();
     private int requestNum;
@@ -58,6 +61,7 @@ public class ResultForm extends JFrame{
 		results.add(countKey());			// 1번 문제
 		results.add(countBrowser());  		// 2번 문제
 		results.add(countSuccessAndFail());	// 3번 문제
+//		results.add(timeMostRequest());		// 4번 문제
 		results.add(countAbNormal());		// 5번 문제
 		results.add(countBooksError());		// 6번 문제
 
@@ -117,7 +121,7 @@ public class ResultForm extends JFrame{
         // Initialize the map to store key counts
         Map<String, Integer> keyCountMap = new HashMap<>();
         
-        try (BufferedReader br = new BufferedReader(new FileReader(fileRute))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileRute1))) {
             String line;
             while ((line = br.readLine()) != null) {
                 // Extract the key from the log line
@@ -166,7 +170,7 @@ public class ResultForm extends JFrame{
     	String[] browserNames = { "[ie]", "[firefox]", "[opera]", "[Chrome]", "[Safari]" };
     	serviceCount = 0;
 
-        try (BufferedReader bufferReader = new BufferedReader(new FileReader(fileRute))) {
+        try (BufferedReader bufferReader = new BufferedReader(new FileReader(fileRute1))) {
             String line;
             while ((line = bufferReader.readLine()) != null) {
             	//줄을 읽어올 때 마다 전체서비스요청 횟수 증가
@@ -207,7 +211,7 @@ public class ResultForm extends JFrame{
         successCount = 0;
         failCount = 0;
 
-        try (BufferedReader bufferReader = new BufferedReader(new FileReader(fileRute))) {
+        try (BufferedReader bufferReader = new BufferedReader(new FileReader(fileRute1))) {
             String line;
             while ((line = bufferReader.readLine()) != null) {
             	//숫자 200이 포함된 줄 일 경우, 성공횟수 증가
@@ -228,6 +232,34 @@ public class ResultForm extends JFrame{
     } //countSuccessAndFail
     
     /**
+     * 4번 - 요청이 많은 시간
+     * @param logString
+     * @param lineCount
+     */
+//    public void timeMostRequest(String[] logString, int lineCount) {
+//    	//패턴 만들어서 적용, 그룹 사용
+//        Map<String, Integer> timeMap = new HashMap<>();
+//        Pattern timePattern = Pattern.compile(".*(\\d{2}):\\d{2}:\\d{2}.*");
+//        for (int i = 0; i < lineCount; i++) {
+//            Matcher matcher = timePattern.matcher(logString[i]);
+//            if (matcher.matches()) { //만약 매치가 된다면 ( 시간이 정상적으로 들어온 것 ) 
+//                String hour = matcher.group(1); // 첫번째 그룹(00-23)- 시간
+//                timeMap.put(hour, timeMap.getOrDefault(hour, 0) + 1);
+//            }// end if
+//        }// end for
+//        String mostTimeHour = null;
+//        int maxCount = 0;
+//        for (Map.Entry<String, Integer> entry : timeMap.entrySet()) {
+//            if (entry.getValue() > maxCount) {
+//                maxCount = entry.getValue();
+//                mostTimeHour = entry.getKey();
+//            }// end if
+//        }// end for
+//        System.out.println("\n4. 요청이 가장 많은 시간 [" + mostTimeHour + "시]\n");
+//    }// timeMostRequest
+
+    
+    /**
      * 5번 문제
      * 비정상적인 요청(403)이 발생한 횟수, 비율구하기
      * @return
@@ -236,7 +268,7 @@ public class ResultForm extends JFrame{
     	abnormalCount = 0;
     	serviceCount = 0;
 
-        try (BufferedReader bufferReader = new BufferedReader(new FileReader(fileRute))) {
+        try (BufferedReader bufferReader = new BufferedReader(new FileReader(fileRute1))) {
             String line;
             while ((line = bufferReader.readLine()) != null) {
             	//줄을 읽어올 때 마다 전체서비스요청 횟수 증가
@@ -254,7 +286,7 @@ public class ResultForm extends JFrame{
         float abnormalRate = serviceCount > 0 ? ((float) abnormalCount / serviceCount) * 100 : 0;
 
         // 결과 값을 변수 result 에 저장하여 JLabel 에 결과값 출력
-        String result = "\n5번.\n비정상적인 요청 횟수(403) : " + abnormalCount + "\n비정상적인 요청 비율 : " + ((int)abnormalRate)+" %\n";
+        String result = "5번.\n비정상적인 요청 횟수(403) : " + abnormalCount + "\n비정상적인 요청 비율 : " + ((int)abnormalRate)+" %\n";
         return result;
     } //countAbNormal
     
@@ -267,7 +299,7 @@ public class ResultForm extends JFrame{
     	booksCount = 0;
     	errorCount = 0;
 
-        try (BufferedReader bufferReader = new BufferedReader(new FileReader(fileRute))) {
+        try (BufferedReader bufferReader = new BufferedReader(new FileReader(fileRute1))) {
             String line;
             while ((line = bufferReader.readLine()) != null) {
                 if (line.contains("books?")) {
