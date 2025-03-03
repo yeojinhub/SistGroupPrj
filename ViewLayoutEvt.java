@@ -52,7 +52,7 @@ public class ViewFormEvt implements ActionListener {
             
             // 여기에 전체 1~6 문제 결과값 추가하고 새로운 창에 결과값 띄우게끔 이벤트 실행
             if (ae.getSource() == resultBtn) {
-            	new ResultForm(this);
+            	new ResultForm();
             } //end resultBtn if
         
     } //actionPerformed
