@@ -110,8 +110,4 @@ public class ViewForm extends JFrame{
 		return reportSaveBtn;
 	} //getReportSaveBtn
 
-	public static void main(String[] args) {
-		new ViewForm();
-	} //main
-
 } //class
