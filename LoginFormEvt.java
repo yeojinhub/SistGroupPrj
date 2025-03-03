@@ -2,6 +2,8 @@ package firstPrj;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
@@ -41,6 +43,25 @@ public class LoginFormEvt extends WindowAdapter implements ActionListener {
 		mapLoginData.put("admin", "1234");
 		mapLoginData.put("root", "1111");
 		mapLoginData.put("administrator", "12345");
+		
+//      엔터 키 이벤트 추가
+      idText.addKeyListener(new KeyAdapter() {
+         @Override
+         public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+               loginBtn.doClick(); // 로그인 버튼 클릭과 동일한 동작 수행
+            }
+         }
+      });
+
+      passText.addKeyListener(new KeyAdapter() {
+         @Override
+         public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+               loginBtn.doClick(); // 로그인 버튼 클릭과 동일한 동작 수행
+            }
+         }
+      });
 	} //LoginFormEvt
 	
 	/**
@@ -112,7 +133,7 @@ public class LoginFormEvt extends WindowAdapter implements ActionListener {
 	private void passChecked() {
 //		ID가 있는 경우에만 비밀번호 체크
 		if(!idChecked()) {
-//			호출한 곳으로 돌아가기
+//			호출한 곳으로 돌아가기ㄴ
 			return;
 		} //end if
 //		char[] 을 하나의 문자열로 만들어서 저장 -> String 에서 제공하는 모든 기능 사용
@@ -131,6 +152,7 @@ public class LoginFormEvt extends WindowAdapter implements ActionListener {
 		
 		if(mapLoginData.containsKey(id) && mapLoginData.get(id).equals(pass)) {
 			msg=("로그인 성공");
+			 lf.dispose(); // 로그인 폼 닫기
 			new ViewForm();
 		} //end if
 		JOptionPane.showMessageDialog(null, msg, "로그인", JOptionPane.WARNING_MESSAGE);
