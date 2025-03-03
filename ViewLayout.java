@@ -17,40 +17,55 @@ import javax.swing.border.EmptyBorder;
 @SuppressWarnings("serial")
 public class ViewForm extends JFrame{
 	
-	private JTextArea textArea;
+	private JTextArea logTextarea;
+	private JTextArea resultTextarea;
 	private JButton openFileBtn;
-	private JButton resultBtn;
+	private JButton resultLogBtn;
+	private JButton reportSaveBtn;
 	
 //	1. window Component 상속
 	public ViewForm() {
 		super("로그인 된 창");
 //		2. Component 생성
-		textArea=new JTextArea();
-		textArea.setEditable(false); // 편집불가
-		JScrollPane scrollPane=new JScrollPane(textArea);
-		scrollPane.setPreferredSize(new Dimension(500, 500)); // 💡 크기 설정 추가
+		logTextarea=new JTextArea();
+		logTextarea.setEditable(false); // 편집불가
+		resultTextarea=new JTextArea();
+		resultTextarea.setEditable(false); // 편집불가
+		
+		JScrollPane logScroll=new JScrollPane(logTextarea);
+		logScroll.setPreferredSize(new Dimension(500, 500)); // 💡 크기 설정 추가
+		
+		JScrollPane resultScroll=new JScrollPane(resultTextarea);
+		resultScroll.setPreferredSize(new Dimension(300, 500)); // 💡 크기 설정 추가
 		
         // 2. 스크롤 패널을 감싸는 패널 생성
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout());
         centerPanel.setBorder(new EmptyBorder(20, 50, 20, 50)); // 💡 좌우 여백 100px 추가
-        centerPanel.add(scrollPane, BorderLayout.CENTER);
+        centerPanel.add(logScroll, BorderLayout.CENTER);
+        centerPanel.add(resultScroll, BorderLayout.EAST);
 		
         //Button(버튼) Component 생성
 		JPanel panelBtn=new JPanel();
 		openFileBtn=new JButton("파일 열기");
-		openFileBtn.setPreferredSize(new Dimension(100,40)); // 💡 크기 설정 추가
-		resultBtn=new JButton("결과 출력");
+		openFileBtn.setPreferredSize(new Dimension(150,40)); // 💡 크기 설정 추가
+		resultLogBtn=new JButton("로그파일 분석");
+		resultLogBtn.setPreferredSize(new Dimension(150,40)); // 💡 크기 설정 추가
+		reportSaveBtn=new JButton("레포트 생성");
+		reportSaveBtn.setPreferredSize(new Dimension(150,40)); // 💡 크기 설정 추가
 		
 		
 		//Button(버튼) Component setBackground,setForeground(색상) 변경
 		openFileBtn.setBackground(Color.lightGray);
 		openFileBtn.setForeground(Color.black);
-		resultBtn.setBackground(Color.lightGray);
-		resultBtn.setForeground(Color.black);
+		resultLogBtn.setBackground(Color.lightGray);
+		resultLogBtn.setForeground(Color.black);
+		reportSaveBtn.setBackground(Color.lightGray);
+		reportSaveBtn.setForeground(Color.black);
 		
 		panelBtn.add(openFileBtn);
-		panelBtn.add(resultBtn);
+		panelBtn.add(resultLogBtn);
+		panelBtn.add(reportSaveBtn);
 		
 //		3. 배치관리자를 설정, Component 배치
 		setLayout(new BorderLayout());
@@ -59,8 +74,9 @@ public class ViewForm extends JFrame{
 		
 //		로그인 Button(버튼) 이벤트
 		ViewFormEvt vle=new ViewFormEvt(this);
-		resultBtn.addActionListener(vle);
+		resultLogBtn.addActionListener(vle);
 		openFileBtn.addActionListener(vle);
+		reportSaveBtn.addActionListener(vle);
 		
 //		Layout(레이아웃) window 크기 설정
         pack(); // 💡 레이아웃에 맞게 자동 크기 조정
@@ -74,17 +90,25 @@ public class ViewForm extends JFrame{
 		
 	} //ViewForm
 	
-	public JTextArea getJta() {
-		return textArea;
-	} //getJta
+	public JTextArea getLogTextarea() {
+		return logTextarea;
+	} //getLogTextarea
+
+	public JTextArea getResultTextarea() {
+		return resultTextarea;
+	} //getResultTextarea
 
 	public JButton getOpenFileBtn() {
 		return openFileBtn;
 	} //getOpenFileBtn
-	
-	public JButton getResultBtn() {
-		return resultBtn;
-	} //getResultBtn
+
+	public JButton getResultLogBtn() {
+		return resultLogBtn;
+	} //getResultLogBtn
+
+	public JButton getReportSaveBtn() {
+		return reportSaveBtn;
+	} //getReportSaveBtn
 
 	public static void main(String[] args) {
 		new ViewForm();
